@@ -23,14 +23,22 @@ const Characters = () => {
   const colorEye = ["All", "brown", "red", "blue", "white"];
   useEffect(() => {
     setIsLoading(true);
+
     const getCharacters = async () => {
-      const { data } = await axios.get(
-        `https://swapi.dev/api/people/?page=${currentPage}`
-      );
-      setItems(data.results);
-      setIsLoading(false);
-      setDataCount(data.count);
-      window.scrollTo(0, 0);
+      try {
+        const { data } = await axios.get(
+          `https://swapi.dev/api/people/?page=${currentPage}`
+        );
+        setItems(data.results);
+
+        setDataCount(data.count);
+        window.scrollTo(0, 0);
+      } catch (error) {
+        alert("Webpage Not Available");
+        console.log("Error", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getCharacters();
   }, [currentPage]);
