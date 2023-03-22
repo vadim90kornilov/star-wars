@@ -16,7 +16,6 @@ const Modal = ({
   hair_color,
   skin_color,
 }) => {
-  console.log(name);
   return (
     <div
       className={active ? "modal active" : "modal"}

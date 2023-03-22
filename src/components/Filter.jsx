@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Filter = ({ value, onChangeFilter }) => {
-  console.log(value);
+  const filterRef = useRef();
+
   const [open, setOpen] = useState(false);
 
   const list = ["All", "brown", "red", "blue", "white"];
@@ -11,8 +12,23 @@ const Filter = ({ value, onChangeFilter }) => {
     //setSelected(i);
     setOpen(false);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!event.composedPath().includes(filterRef.current)) {
+        setOpen(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.body.removeEventListener("click", handleOutsideClick);
+      console.log("unmount");
+    };
+  }, []);
   return (
-    <div className="filter">
+    <div ref={filterRef} className="filter">
       <div className="filter__label">
         {/* <svg
           width="10"

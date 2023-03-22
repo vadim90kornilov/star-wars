@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { Link, useLocation } from "react-router-dom";
 import logoSvg from "../assets/img/logo.svg";
 import Search from "./Search";
@@ -20,14 +21,15 @@ const Header = ({ searchValue, setSearchValue }) => {
           <ul>
             <Link to="/">
               <li className={location.pathname === "/" ? "active" : ""}>
-                Home
+                {t("Home")}
               </li>
             </Link>
+
             <Link to="/characters">
               <li
                 className={location.pathname === "/characters" ? "active" : ""}
               >
-                Characters
+                {t("Characters")}
               </li>
             </Link>
           </ul>

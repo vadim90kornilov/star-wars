@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Characters from "./pages/Characters";
 import { Route, Routes } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
 function App() {
   return (
     <div className="wrapper">

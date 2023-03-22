@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import Filter from "../components/Filter";
 import Header from "../components/Header";
@@ -6,11 +6,23 @@ import CharacterBlock from "../components/CharacterBlock";
 import Skeleton from "../components/CharacterBlock/Skeleton";
 
 import { useEffect, useState } from "react";
+
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 import Modal from "../components/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterId } from "../redux/slices/filterSlice";
 
 const Characters = () => {
+  const filterId = useSelector((state) => state.filter.filterId);
+  const dispath = useDispatch();
+  console.log(filterId);
+  const onChangeFilter = (id) => {
+    dispath(setFilterId(id));
+  };
+  console.log("id filter:", filterId);
+
   const [searchValue, setSearchValue] = useState("");
 
   const [items, setItems] = useState([]);
@@ -18,9 +30,15 @@ const Characters = () => {
   const [modalActive, setModalActive] = useState(false);
   const [dataCount, setDataCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [filterId, setFilterId] = useState(0);
+
   const [currentPage, setCurrentPage] = useState(1);
   const colorEye = ["All", "brown", "red", "blue", "white"];
+  //wookie lng
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (language) => {
+    i18n.changeLanguage(language);
+  };
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -67,7 +85,6 @@ const Characters = () => {
       />
     ));
 
-  console.log(filterId);
   return (
     <>
       <Header searchValue={searchValue} setSearchValue={setSearchValue} />
@@ -77,12 +94,29 @@ const Characters = () => {
             <h2 className="content__title">Loading...</h2>
           ) : (
             <h2 className="content__title">
-              {dataCount} <span>Peoples</span> for you to choose your favorite
+              {dataCount} <span>{t("Peoples")}</span>{" "}
+              {t("for you to choose your favorite")}
             </h2>
           )}
           <div className="content__top">
-            <Filter value={filterId} onChangeFilter={(id) => setFilterId(id)} />
+            <Filter value={filterId} onChangeFilter={onChangeFilter} />
+            <div>
+              Language:
+              <button
+                className="content__top__btn"
+                onClick={() => changeLanguage("en")}
+              >
+                En
+              </button>
+              <button
+                className="content__top__btn"
+                onClick={() => changeLanguage("wookie")}
+              >
+                Wookie
+              </button>
+            </div>
           </div>
+
           {/* {items.length && (
             <h2 className="content__title">
               {items.length} Peoples for you to choose your favorite

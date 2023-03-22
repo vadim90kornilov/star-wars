@@ -1,12 +1,19 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 
-import { BrowserRouter, RouterProvider, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import "./i18n";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <App />
+    <Provider store={store}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <App />
+      </Suspense>
+    </Provider>
   </BrowserRouter>
 );
